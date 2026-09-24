@@ -1,11 +1,14 @@
 export function getApiBase() {
   if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
   if (typeof window !== 'undefined') {
-    // When running locally with frontend on port 3000, call backend on 5000
+    // When running locally on port 3000, call backend on 5000
     if (window.location.port === '3000') {
       return `http://${window.location.hostname}:5000/api`;
     }
-    // When hosted on Render (single unified origin) or same port
+    // When hosted on Render, automatically route directly to the live backend
+    if (window.location.hostname.includes('onrender.com')) {
+      return 'https://trao-backend-41qq.onrender.com/api';
+    }
     return '/api';
   }
   return 'http://localhost:5000/api';
