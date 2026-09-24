@@ -57,7 +57,7 @@ export class LLMClient {
       async () => {
         if (this.provider === 'gemini' && this.geminiClient) {
           const model = this.geminiClient.getGenerativeModel({
-            model: 'gemini-1.5-flash',
+            model: config.geminiModel,
             systemInstruction: systemInstruction,
             generationConfig: {
               temperature: options.temperature ?? 0.2,
