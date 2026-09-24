@@ -196,7 +196,8 @@ router.post('/:id/flashcards/:cardId/practice', async (req, res) => {
 
 router.post('/:id/mock-interview', async (req, res) => {
   try {
-    const { questionId, candidateAnswer } = req.body;
+    const questionId = req.body.questionId || req.body.question_id;
+    const candidateAnswer = req.body.candidateAnswer || req.body.candidate_answer;
     const id = String(req.params.id);
 
     const kit = await db.findKitById(id, req.user.id);
