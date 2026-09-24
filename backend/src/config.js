@@ -16,7 +16,7 @@ export const config = {
   mongodbUri: process.env.MONGODB_URI || 'mongodb://localhost:27017/trao',
   jwtSecret: process.env.JWT_SECRET || 'super-secret-jwt-key-trao-assessment-2026',
 
-  llmProvider: (process.env.LLM_PROVIDER || 'gemini').toLowerCase(),
+  llmProvider: process.env.NODE_ENV === 'test' ? 'mock' : (process.env.LLM_PROVIDER || 'gemini').toLowerCase(),
   geminiApiKey: process.env.GEMINI_API_KEY || '',
   geminiModel: process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite',
   groqApiKey: process.env.GROQ_API_KEY || '',

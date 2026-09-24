@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/authContext';
-import { api } from '@/lib/api';
+import { api, getApiBase } from '@/lib/api';
 import {
   Sparkles,
   PlusCircle,
@@ -78,7 +78,7 @@ export default function DashboardPage() {
 
     try {
       const token = localStorage.getItem('trao_auth_token');
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/kits/generate`, {
+      const response = await fetch(`${getApiBase()}/kits/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

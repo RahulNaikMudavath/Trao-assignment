@@ -1,66 +1,89 @@
-# Deployment Guide: Trao AI Interview Prep Kit
+# Hosting Guide: Deploying Frontend & Backend on Render
 
-This guide walks you through deploying the **Trao AI Interview Prep Kit** live to the web in under 5 minutes for **100% free**.
-
-The recommended production architecture uses:
-- **Backend API**: Hosted on [Render](https://render.com) (Free Node.js Web Service)
-- **Frontend App**: Hosted on [Vercel](https://vercel.com) (Free Next.js Edge CDN)
-- **Database**: In-memory (zero configuration) or [MongoDB Atlas](https://www.mongodb.com/atlas) (Free Tier)
+This guide explains how to host **both the Frontend and Backend exclusively on [Render.com](https://render.com)** for **100% free**.
 
 ---
 
-## Part 1: Deploy Backend to Render (2 Minutes)
+## Method 1: Automatic Blueprint (1-Click - Recommended)
 
-1. Sign up or log into [Render.com](https://render.com) using your GitHub account.
-2. Click **New +** in the top navigation bar and select **Web Service**.
-3. Choose **Build and deploy from a Git repository** and connect your repo: `RahulNaikMudavath/Trao-assignment`.
-4. Configure the service settings:
-   - **Name**: `trao-backend` (or your preferred name)
-   - **Region**: Choose the region closest to you (e.g., `Oregon (US West)` or `Frankfurt (EU)`)
+Because our repository includes a pre-configured [`render.yaml`](./render.yaml), Render can automatically create both services for you in a single step!
+
+1. Go to **[dashboard.render.com](https://dashboard.render.com/)** and log in with your GitHub account.
+2. In the top right, click **New +** and select **Blueprint**.
+3. Connect your repository: **`RahulNaikMudavath/Trao-assignment`**.
+4. Render will scan `render.yaml` and show:
+   - `trao-backend` (Web Service)
+   - `trao-frontend` (Web Service)
+5. Fill in the required environment variables:
+   - **`GEMINI_API_KEY`**: Your Gemini API key (`AQ.Ab8RN...`)
+   - **`NEXT_PUBLIC_API_URL`**: Leave blank for now, or fill in once backend URL is generated.
+6. Click **Apply**.
+7. Render will automatically build and deploy both services!
+
+---
+
+## Method 2: Manual Step-by-Step Setup on Render
+
+If you prefer setting up the services manually via the Render UI:
+
+### Step 1: Deploy Backend Web Service
+
+1. On [Render](https://dashboard.render.com/), click **New +** -> **Web Service**.
+2. Select **`RahulNaikMudavath/Trao-assignment`** and click **Connect**.
+3. Fill in the details:
+   - **Name**: `trao-backend`
+   - **Region**: Any (e.g. `Oregon (US West)` or `Frankfurt (EU)`)
    - **Branch**: `main`
-   - **Root Directory**: *(leave blank)*
+   - **Root Directory**: *(leave completely empty)*
    - **Runtime**: `Node`
    - **Build Command**: `npm install`
    - **Start Command**: `node backend/src/index.js`
-   - **Instance Type**: `Free`
-5. Click **Advanced** and add the following **Environment Variables**:
+   - **Instance Type**: **Free**
+4. Expand **Advanced** -> **Add Environment Variable**:
    | Key | Value | Notes |
    | :--- | :--- | :--- |
    | `NODE_ENV` | `production` | Production mode |
-   | `GEMINI_API_KEY` | `<your_gemini_api_key_from_google_ai_studio>` | Live LLM generation key |
-   | `GEMINI_MODEL` | `gemini-3.5-flash-lite` | Stable, high-speed Gemini model |
-   | `CLIENT_URL` | `*` | Allows your Vercel frontend to communicate |
-   | `JWT_SECRET` | *(any random 32-character string)* | Auth session token signing |
-   | `MONGODB_URI` | *(optional)* | If left empty, uses resilient in-memory storage |
+   | `GEMINI_API_KEY` | `<your_gemini_api_key>` | Your Gemini API key from Google AI Studio |
+   | `GEMINI_MODEL` | `gemini-3.5-flash-lite` | Stable high-speed model |
+   | `CLIENT_URL` | `*` | Allows Render frontend to connect without CORS blocks |
+   | `JWT_SECRET` | `super-secret-jwt-key-trao-assessment-2026` | Auth session token signing |
+   | `MONGODB_URI` | *(optional)* | If omitted, uses resilient in-memory storage |
 
-6. Click **Create Web Service**.
-7. Render will build and deploy your backend. When complete, copy your live backend URL (e.g. `https://trao-backend-xxxx.onrender.com`).
-8. You can verify it is healthy by visiting `https://trao-backend-xxxx.onrender.com/api/health`.
+5. Click **Create Web Service**.
+6. Wait 1–2 minutes until it shows **Live**.
+7. Copy the backend URL at the top (e.g., `https://trao-backend-xxxx.onrender.com`).
+   - Test it: visit `https://trao-backend-xxxx.onrender.com/api/health` — it will return `{"status":"ok"}`.
 
 ---
 
-## Part 2: Deploy Frontend to Vercel (1 Minute)
+### Step 2: Deploy Frontend Web Service
 
-1. Sign up or log into [Vercel.com](https://vercel.com) using your GitHub account.
-2. Click **Add New...** -> **Project**.
-3. Select your repository `RahulNaikMudavath/Trao-assignment` and click **Import**.
-4. Configure the project:
-   - **Framework Preset**: `Next.js`
-   - **Root Directory**: Click **Edit** and select `frontend`.
-5. Expand the **Environment Variables** section and add:
+1. In Render, click **New +** -> **Web Service**.
+2. Select **`RahulNaikMudavath/Trao-assignment`** again.
+3. Fill in the details:
+   - **Name**: `trao-frontend`
+   - **Region**: Same region as backend
+   - **Branch**: `main`
+   - **Root Directory**: `frontend`
+   - **Runtime**: `Node`
+   - **Build Command**: `npm install && npm run build`
+   - **Start Command**: `npm start`
+   - **Instance Type**: **Free**
+4. Expand **Advanced** -> **Add Environment Variable**:
    | Key | Value |
    | :--- | :--- |
+   | `NODE_ENV` | `production` |
    | `NEXT_PUBLIC_API_URL` | `https://trao-backend-xxxx.onrender.com/api` |
-   *(Replace with the actual Render URL from Part 1 with `/api` appended at the end)*
+   *(Paste your actual backend URL from Step 1 with `/api` appended)*
 
-6. Click **Deploy**.
-7. In ~45 seconds, your frontend will be live on a `https://trao-assignment-xxxx.vercel.app` URL!
+5. Click **Create Web Service**.
+6. Once deployed (~1 minute), click on your live frontend URL (e.g. `https://trao-frontend-xxxx.onrender.com`).
 
 ---
 
-## Part 3: Test Your Live App
+## Step 3: Test Your Live Hosted App
 
-1. Open your live Vercel URL in your browser.
-2. Click **Register** or **Login** to create an account.
-3. Paste a target job description and company URL (`https://example.com`), select days, and click **Generate Prep Kit**.
-4. Watch the live 7-step autonomous pipeline execute and explore your generated questions, flashcards, and mock interview studio!
+1. Open your live `trao-frontend` URL on Render.
+2. Click **Register** to create an account.
+3. Paste a job description and company URL (`https://example.com`), select days, and click **Generate Prep Kit**.
+4. The frontend will stream live progress from your Render backend, run through all 7 pipeline steps, and present the complete prep kit!

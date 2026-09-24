@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { config } from './config.js';
 import { initDatabase } from './storage/db.js';
 import authRoutes from './routes/auth.js';

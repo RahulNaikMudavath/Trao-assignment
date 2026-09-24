@@ -1,4 +1,17 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+export function getApiBase() {
+  if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
+  if (typeof window !== 'undefined') {
+    // When running locally with frontend on port 3000, call backend on 5000
+    if (window.location.port === '3000') {
+      return `http://${window.location.hostname}:5000/api`;
+    }
+    // When hosted on Render (single unified origin) or same port
+    return '/api';
+  }
+  return 'http://localhost:5000/api';
+}
+
+const API_BASE = getApiBase();
 
 function getAuthToken() {
   if (typeof window === 'undefined') return null;
@@ -25,7 +38,7 @@ async function request(endpoint, options = {}) {
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const res = await fetch(`${API_BASE}${endpoint}`, {
+  const res = await fetch(`${getApiBase()}${endpoint}`, {
     ...options,
     headers,
   });
