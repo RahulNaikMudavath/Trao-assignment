@@ -16,7 +16,10 @@
     "evaluate": "node evaluate.js"
   },
   "dependencies": {
+    "autoprefixer": "^10.4.20",
     "dotenv": "^16.4.7",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^3.4.17",
     "zod": "^3.24.2"
   },
   "devDependencies": {

@@ -26,9 +26,8 @@ services:
     env: node
     plan: free
     region: oregon
-    rootDir: frontend
-    buildCommand: npm install --include=dev && npm run build
-    startCommand: npm start
+    buildCommand: npm install && npm run build --workspace=frontend
+    startCommand: npm run start --workspace=frontend
     envVars:
       - key: NODE_ENV
         value: production
