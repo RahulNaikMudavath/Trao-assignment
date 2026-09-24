@@ -7,8 +7,27 @@ import kitRoutes from './routes/kits.js';
 
 const app = express();
 
+const allowedOrigins = [
+  config.clientUrl,
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+];
+
 app.use(cors({
-  origin: [config.clientUrl, 'http://localhost:3000', 'http://127.0.0.1:3000'],
+  origin: (origin, callback) => {
+    // Allow non-browser requests (curl, server-to-server, health checks)
+    if (!origin) return callback(null, true);
+    if (
+      config.clientUrl === '*' ||
+      allowedOrigins.includes(origin) ||
+      origin.endsWith('.vercel.app') ||
+      origin.endsWith('.onrender.com') ||
+      origin.includes('localhost')
+    ) {
+      return callback(null, origin);
+    }
+    return callback(null, origin);
+  },
   credentials: true,
 }));
 app.use(express.json({ limit: '10mb' }));
