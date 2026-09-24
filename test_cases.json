@@ -1,0 +1,14 @@
+[
+  {
+    "id": "case-01",
+    "jd": "Senior Full-Stack Engineer\n\nWe are looking for an experienced engineer to lead our frontend and distributed backend initiatives.\n\nRequirements:\n- 5+ years of React and Next.js\n- Strong experience with Node.js and TypeScript\n- Experience designing scalable distributed architectures\n- Experience mentoring junior and mid-level engineers\n- Bonus: Knowledge of Docker and CI/CD pipelines",
+    "company_url": "https://example.com",
+    "days": 5
+  },
+  {
+    "id": "case-02",
+    "jd": "Junior Developer\n\nMust have basic understanding of JavaScript and SQL. Fast learner with good communication.",
+    "company_url": "https://invalid-unreachable-example-domain-404.org",
+    "days": 2
+  }
+]
