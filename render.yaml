@@ -27,9 +27,9 @@ services:
     plan: free
     region: oregon
     buildCommand: npm install && npm run build --workspace=frontend
-    startCommand: npm run start --workspace=frontend
+    startCommand: npx next start frontend -H 0.0.0.0
     envVars:
       - key: NODE_ENV
         value: production
       - key: NEXT_PUBLIC_API_URL
-        sync: false
+        value: https://trao-backend-41qq.onrender.com/api
