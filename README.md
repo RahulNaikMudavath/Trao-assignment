@@ -2,6 +2,11 @@
 **Assessment ID:** `FS-AI-INTERVIEW-01`  
 **Application Overview:** Autonomous full-stack system and evaluation pipeline that transforms any job description, company URL, and preparation timeframe into a structured, personalized, and reshapeable interview preparation kit. Built with pure JavaScript (Node.js ES Modules and React JSX).
 
+> 🚀 **Live Production Application:** [https://trao-frontend-pto1.onrender.com](https://trao-frontend-pto1.onrender.com)  
+> ⚡ **Live Backend API Health:** [https://trao-backend-41qq.onrender.com/api/health](https://trao-backend-41qq.onrender.com/api/health)  
+> 🎬 **Video Walkthrough Script & Review Defense:** [presentation_guide.md](./presentation_guide.md)  
+> ☁️ **Render Cloud Deployment Guide:** [DEPLOYMENT.md](./DEPLOYMENT.md)
+
 ---
 
 ## 1. Project Overview & Tech Stack Justification
@@ -14,7 +19,7 @@ The AI Interview Prep Kit adheres strictly to the Trao assessment specifications
 | **Backend** | **Node.js (ES Modules) + Express (Pure JavaScript)** | Enforces clean architectural separation between retrieval, extraction, LLM orchestration, deterministic logic, and API endpoints without transpilation overhead. |
 | **Database** | **MongoDB (Mongoose) + Hybrid Resilient Storage** | Provides schema validation and document storage. Implements a hybrid adapter pattern: connects to MongoDB when available, and automatically activates an in-memory/JSON-file fallback store when running offline or on a clean clone without a local MongoDB service. |
 | **Scraping** | **Cheerio + Axios + robots-parser + SSRF Validator** | Handles intelligent page retrieval, parses `robots.txt`, executes semantic link ranking to discover buried hiring pages without hardcoded paths, cleans DOM content, and blocks SSRF attacks. |
-| **LLM Provider** | **Google Gemini (Free Tier) & Groq API** | Uses Google Gemini 1.5 Flash (`@google/generative-ai`) and Groq (`llama-3.3-70b-versatile`), both offering generous free tiers. Equipped with an exponential backoff rate limiter and an offline mock provider for deterministic local test runs. |
+| **LLM Provider** | **Google Gemini (Free Tier) & Groq API** | Uses Google Gemini 3.5 Flash Lite (`gemini-3.5-flash-lite` via `@google/generative-ai`) and Groq (`llama-3.3-70b-versatile`), both offering generous free tiers. Equipped with an exponential backoff rate limiter and an offline mock provider for deterministic local test runs. |
 | **Testing** | **Vitest** | Fast modern test runner verifying schedule allocation, coverage checks, structure schemas, and the batch CLI runner in pure JavaScript. |
 
 ---
